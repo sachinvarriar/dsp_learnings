@@ -1,0 +1,11 @@
+numpy 
+scipy 
+matplotlib 
+librosa 
+torch 
+torchaudio 
+jupyter-notebook
+transformers 
+datasets
+google-cloud-aiplatform
+kfp<2.0.0
