@@ -12,7 +12,8 @@ Sachin has **30 minutes to read** and **30 minutes to run and understand the cod
 - File: the path in the table below. Python 3.11, dependencies in `requirements-lab.txt` only.
 - Order of cells: title and date; what you will learn (3-5 bullets); references; then short sections, each a markdown explanation followed by code; "Try it in Audacity"; "How AI uses this"; exercises (2-3); summary.
 - Make every step audible: `IPython.display.Audio(x, rate=sr, normalize=False)` so levels are heard as they are.
-- Prefer synthetic signals and librosa's example clips (`librosa.ex(...)`), with a synthetic fallback if a download fails. Never commit large audio.
+- Prefer synthetic signals and librosa's example clips (`librosa.ex(...)`), with a synthetic fallback if a download fails.
+- **Practice sounds:** each lesson also saves 2 to 4 short clips (2-5 seconds, 16-bit mono WAV, under 300 KB each) to `audio/dayNN_<what>.wav`, generated in the notebook so they are free to share, and adds them to the table in `audio/README.md`. The notebook and the blog's Audacity steps both use them. Never copy third-party audio (including librosa's examples) into the repo.
 - Plain, friendly English for someone who did B.Tech DSP years ago. Define a term the first time it appears.
 - The notebook must run top to bottom without errors in under two minutes and be committed with its outputs.
 - **Try it in Audacity** assumes the reader has never used Audacity: how to open or generate a clip, how to select audio, which menu to use and what they should see. Menu names differ between versions, so name the effect and say where it usually is (Audacity 3.2 and later group effects into submenus such as Effect > Volume and Compression).
@@ -22,7 +23,7 @@ Sachin has **30 minutes to read** and **30 minutes to run and understand the cod
 ## Blog post conventions
 - Write `blog/dayNN.md` as a full draft blog post for Sachin to edit and publish.
 - Write it for a curious 5th grader (about 10 years old) who wants to learn DSP and later use it for AI. Short sentences, everyday words, and one picture-in-your-head comparison for each idea (for example, sampling is like a flip-book). Explain any number before using it. No formulas in the main text; at most one, in a box at the end, for older readers.
-- Sections: a title; the big idea in one sentence; the explanation with comparisons; "What we found" with 2-3 results from the notebook; "Try it yourself in Audacity" in beginner steps; "How AI uses this"; "Words to remember" (3-5 terms with one-line meanings).
+- Sections: a title; the big idea in one sentence; the explanation with comparisons; "What we found" with 2-3 results from the notebook; "Sounds to try" (a table linking the day's clips on GitHub, `https://github.com/sachinvarriar/dsp_learnings/blob/main/audio/...`); "Try it yourself in Audacity" in beginner steps using those clips; "Try it with code" (one short, tested snippet that loads a clip with `librosa.load(path, sr=None)`); "How AI uses this"; "Words to remember" (3-5 terms with one-line meanings). Follow `blog/day01.md`.
 - About a 5-minute read. Name the figure and audio clips from the notebook to embed.
 
 ## Days

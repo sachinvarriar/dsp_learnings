@@ -48,14 +48,47 @@ A **spectrogram** does this over and over, slice by slice, and draws a picture. 
 
 A trumpet and a flute can play the same note and still sound different. The difference is in the harmonics: how many there are, and how loud each one is. This is called **timbre** (say "TAM-ber"). It's like two people singing the same word: you can still tell who is who.
 
+## Sounds to try
+
+Four short sounds made for this post. Click one, then press **Download raw file** on GitHub.
+
+| Sound | What you'll hear |
+|---|---|
+| [Pure tone](https://github.com/sachinvarriar/dsp_learnings/blob/main/audio/day01_pure_tone_440hz.wav) | One clean note, 3 seconds. |
+| [Rich tone](https://github.com/sachinvarriar/dsp_learnings/blob/main/audio/day01_rich_tone_220hz.wav) | A buzzy note full of harmonics, 3 seconds. |
+| [Sweep, enough snapshots](https://github.com/sachinvarriar/dsp_learnings/blob/main/audio/day01_chirp_ok_22050hz.wav) | A whistle that keeps going up, 4 seconds. |
+| [Sweep, too few snapshots](https://github.com/sachinvarriar/dsp_learnings/blob/main/audio/day01_chirp_aliased_8000hz.wav) | The same whistle, but it goes up, comes back down and goes up again. That's aliasing! |
+
 ## Try it yourself in Audacity
 
 Audacity is a free sound editor you can download from audacityteam.org.
 
-1. Open Audacity and choose **File › Import › Audio…** to open any song, or drag a song file into the window. It appears as a wobbly blue band: the waveform.
-2. Click and drag across about two seconds of the song to select it.
-3. Choose **Analyze › Plot Spectrum…**. A graph pops up showing which notes were in your selection: peaks mean "lots of this note".
-4. Close the graph. Click the track's name at its left edge to open its menu, and choose **Spectrogram**. Now you see the picture of notes over time, just like in the notebook.
+1. Open Audacity and choose **File › Import › Audio…**, then pick the two sweep sounds. (You can also drag them into the window.) Each one appears as a band: its waveform.
+2. Press the **space bar** to play. Click **Solo** on one track at a time to hear them separately. Hear how the second one turns around?
+3. Click each track's name at its left edge to open its menu, and choose **Spectrogram**. The first sweep draws a line that climbs all the way up. The second one climbs, bounces off a ceiling and comes back down: that ceiling is half its snapshot rate.
+4. Now import the **pure tone** and the **rich tone** and look at their spectrograms. The pure tone is a single line. The rich tone is a ladder of lines: its harmonics, the "colour" of the sound.
+5. Want to try a real song? Import any song, drag across about two seconds of it, and choose **Analyze › Plot Spectrum…** to see which notes are in it.
+
+## Try it with code
+
+For grown-ups and curious kids. This loads the aliased sweep and draws its spectrogram:
+
+```python
+import librosa, librosa.display
+import numpy as np
+import matplotlib.pyplot as plt
+
+# sr=None keeps the file's own snapshot rate: 8,000 a second
+y, sr = librosa.load("audio/day01_chirp_aliased_8000hz.wav", sr=None)
+print(f"{len(y)} snapshots at {sr} a second = {len(y) / sr:.1f} seconds")
+
+S = librosa.amplitude_to_db(np.abs(librosa.stft(y)), ref=np.max)
+librosa.display.specshow(S, sr=sr, x_axis="time", y_axis="hz")
+plt.title("A sweep with too few snapshots")
+plt.show()
+```
+
+Swap in the other files, or try librosa's built-in sounds: `librosa.ex('libri1')` is a person reading a story, and `librosa.ex('robin')` is a bird.
 
 ## How AI uses this
 
