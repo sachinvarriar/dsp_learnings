@@ -1,68 +1,66 @@
-# How loud is loud? Normalize vs Amplify
+# What is sound to a computer?
 
-*DSP Lab, Day 1 · draft · notebook: `lessons/lesson03_levels.ipynb`*
+*DSP Lab, Day 1 · draft · notebook: `lesson1_sampling.ipynb` (refresher)*
 
-**The big idea:** a computer stores sound as a long list of numbers, and making a sound louder just means making those numbers bigger, but only up to a ceiling.
+**The big idea:** a computer can't hear. It turns sound into a very long list of numbers, and everything else in this series starts from that list.
 
-## Sound is a list of numbers
+## Sound is wiggling air
 
-When you record your voice, the microphone feels the air wiggling. The computer checks that wiggle thousands of times every second and writes down a number each time, like a flip-book where each page is one tiny moment. Our trumpet clip has 22,050 numbers for every second of sound.
+When a trumpet plays, it pushes the air back and forth, very fast. That wiggle travels to your ear, and your ear turns it into the sound you hear. A microphone works the same way: it feels the air wiggling.
 
-Each number says how far the air was pushed at that moment. The numbers are allowed to go from −1 to +1, and not one bit further. Think of a room with a low ceiling: you can jump, but your head stops at the ceiling. In sound, that ceiling is called **full scale**.
+## Taking snapshots: sampling
 
-## Measuring with decibels
+A computer can't store a smooth wiggle, so it takes **snapshots**. Thousands of times every second it asks "how far is the air pushed right now?" and writes the answer down as a number. Each answer is called a **sample**.
 
-People measure loudness in **decibels**, or dB for short. In computer sound we count down from the ceiling: the ceiling is 0 dB, and everything quieter is a negative number.
+Think of a **flip-book**. Each page is one still drawing, but flip through them fast enough and you see movement. Sound samples are the pages, and your speakers flip through them so fast that you hear smooth sound again.
 
-Here is the one trick to remember: **every time you halve a sound's size, it drops about 6 dB.** So a sound half as tall as the ceiling sits at about −6 dB.
+Our trumpet clip took **22,050 snapshots every second**. That number is called the **sampling rate**. The whole clip is 117,601 snapshots long. Divide one by the other and you get the clip's length: about 5⅓ seconds.
 
-## Two ways to measure "how loud"
+## The speed limit: why some sounds get lost
 
-- **Peak** is the very tallest number in the clip, like measuring the tallest kid in your class.
-- **RMS** is more like the class's average height. It follows how loud something *sounds* much better than the peak does.
+There is a rule for snapshots: **to catch a wiggle, you need at least two snapshots for every back-and-forth.** If the air wiggles faster than that, the snapshots miss it, and worse, they can make it look like a slower wiggle that was never there. That trick is called **aliasing**. Spinning wheels in films sometimes look like they go backwards for the same reason.
 
-A trumpet note starts with a sharp spike and then settles down, so its peak is high but its average is much lower. A buzzing square wave stays at full height all the time, so its peak and its average are the same.
+So 22,050 snapshots a second can catch wiggles up to about 11,000 per second. That's enough for most music and speech.
 
-## Amplify: make every number bigger
+## Seeing the notes inside a sound
 
-**Amplify** multiplies every number by the same amount. Everything gets bigger together, so the sound keeps its shape.
+If you draw all the samples as a line, you get a **waveform**: a wobbly line that shows when the sound is loud or quiet. But a waveform doesn't tell you *which notes* are in the sound.
 
-But remember the ceiling. If you amplify too much, the tallest parts try to go past +1, and the computer just chops them off flat. That chopping is called **clipping**, and it sounds crunchy and harsh, like a speaker that is too loud.
+For that we use a clever bit of maths called the **Fourier transform**. Think of a smoothie. You can taste it, but you can't see the banana and the strawberries any more. The Fourier transform is like a machine that un-blends the smoothie and tells you how much of each fruit went in. For sound, the "fruits" are pure, simple notes.
 
-## Normalize: let the computer pick the amount
-
-**Normalize** is Amplify that works out the amount for you. You tell it "make the tallest part reach just under the ceiling" (usually −1 dB), and it does the maths.
-
-It has one extra trick. Sometimes a recording is a little lopsided, sitting slightly above or below the middle line, like a see-saw that isn't level. That's called a **DC offset**. Normalize can straighten it first, which leaves more room before the ceiling.
+A **spectrogram** does this over and over, slice by slice, and draws a picture. Time goes left to right, low notes are at the bottom, high notes at the top, and brighter means louder.
 
 ## What we found
 
-- Making the trumpet just 6 dB too loud chopped off 1,423 of its numbers, about 1 in every 80. You can hear the crunch in the notebook.
-- Our lopsided test clip only reached −1 dB on one side. Once we straightened it, both sides could use the full height.
-- We made a trumpet, a smooth tone and a buzzy square wave all exactly the same peak height. They did **not** sound equally loud. Their averages (RMS) were about −20 dB, −4 dB and −1 dB.
+- In the trumpet's spectrogram there's a bright line near **600 wiggles per second**. That's the note we hear, called the **fundamental**.
+- Above it are more bright lines, evenly stacked. These are **harmonics**: quieter, higher notes that ride along with the main one.
+- When we looked at one short slice, the strongest note was near 1,000 wiggles per second, not 600. It's a puzzle! The loudest line isn't always the note you hear. We'll solve it on Day 34.
 
-*Figure to use:* the clipping close-up from section 3 (what we asked for vs what got chopped). *Audio to embed:* the clean trumpet, then the clipped one.
+*Figure to use:* the trumpet spectrogram from the notebook. *Audio to embed:* the trumpet clip.
+
+## Why a trumpet doesn't sound like a flute
+
+A trumpet and a flute can play the same note and still sound different. The difference is in the harmonics: how many there are, and how loud each one is. This is called **timbre** (say "TAM-ber"). It's like two people singing the same word: you can still tell who is who.
 
 ## Try it yourself in Audacity
 
 Audacity is a free sound editor you can download from audacityteam.org.
 
-1. Open Audacity. Choose **Generate › Tone…**, set the *Amplitude* to 0.5, and press **Generate**. A blue band appears: that's your sound, drawn as its list of numbers.
-2. Click inside the band and press **Ctrl+A** to select all of it.
-3. Choose **Effect › Volume and Compression › Amplify…** (older versions: **Effect › Amplify…**). Audacity suggests about 6 dB, because half the ceiling is about 6 dB below it. Press **Cancel**.
-4. Now choose **Effect › Volume and Compression › Normalize…**, set the peak to −1.0 dB and press **Apply**. Watch the band grow almost to the top and bottom.
-5. Press the **space bar** to listen.
+1. Open Audacity and choose **File › Import › Audio…** to open any song, or drag a song file into the window. It appears as a wobbly blue band: the waveform.
+2. Click and drag across about two seconds of the song to select it.
+3. Choose **Analyze › Plot Spectrum…**. A graph pops up showing which notes were in your selection: peaks mean "lots of this note".
+4. Close the graph. Click the track's name at its left edge to open its menu, and choose **Spectrogram**. Now you see the picture of notes over time, just like in the notebook.
 
 ## How AI uses this
 
-AI that listens, like the voice assistant on a phone, learns from thousands of recordings. Some were recorded loudly, some quietly, some on cheap microphones. Before the AI learns from them, the recordings are made about equally loud. Otherwise the AI might learn "this one was quiet" instead of learning which *word* was said. Clipped recordings cause trouble too, because the chopped tops add crunchy sounds that were never in the voice.
+Every AI that listens, from a phone's voice assistant to a music app that names songs, starts exactly here. First the sound becomes samples. Then the samples become a spectrogram. Many AI models then look at that spectrogram almost like a photo, and learn to spot the patterns that mean "dog barking", "the word *hello*" or "this song".
 
 ## Words to remember
 
-- **Sample:** one number in the list, one tiny moment of sound.
-- **Full scale:** the ceiling. Numbers can't go past −1 or +1.
-- **Decibel (dB):** a way of measuring loudness. Halving the size takes off about 6 dB.
-- **Clipping:** what happens when sound hits the ceiling and gets chopped flat.
-- **Normalize:** make the loudest part reach a chosen level.
+- **Sample:** one snapshot of the sound, stored as a number.
+- **Sampling rate:** how many snapshots are taken each second.
+- **Aliasing:** a fake, slower sound created by taking snapshots too slowly.
+- **Spectrogram:** a picture of which notes are playing, and when.
+- **Timbre:** the "colour" of a sound that makes a trumpet sound like a trumpet.
 
-> **For older readers:** level in dB = 20 × log₁₀(amplitude). An amplitude of 0.5 gives 20 × log₁₀(0.5) ≈ −6.02 dB.
+> **For older readers:** the Nyquist rule says the sampling rate must be more than twice the highest frequency in the sound: f_s > 2 × f_max.
