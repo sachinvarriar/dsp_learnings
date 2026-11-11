@@ -9,7 +9,14 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - Prefer synthetic signals and librosa's example clips (`librosa.ex(...)`). Never commit large audio; write any clips to `audio/` and keep them under 1 MB.
 - Plain, friendly English for someone who did B.Tech DSP years ago. Define a term the first time it appears. No unexplained jargon.
 - The notebook must run top to bottom without errors in under two minutes and be committed with its outputs.
-- Also write `blog/dayNN.md`: a short outline (title, the question, 3-5 points, the one figure to use) for Sachin to write the post from. Not a finished post.
+- **Try it in Audacity** assumes the reader has never used Audacity: how to open or import a clip, how to select audio, which menu to use and what they should see. Menu names differ between Audacity versions, so name the effect and say where it usually is (Audacity 3.2 and later group effects into submenus such as Effect > Volume and Compression).
+- End every notebook with **How AI uses this**, using the AI link given for the day below.
+
+## Blog post conventions
+- Write `blog/dayNN.md` as a full draft blog post for Sachin to edit and publish.
+- Write it for a curious 5th grader (about 10 years old) who wants to learn DSP and later use it for AI. Short sentences, everyday words, and one picture-in-your-head comparison for each idea (for example, sampling is like a flip-book). Explain any number before using it. No formulas in the main text; at most one, in a box at the end, for older readers.
+- Sections: a title; the big idea in one sentence; the explanation with comparisons; "What we found" with 2-3 results from the notebook; "Try it yourself in Audacity" in beginner steps; "How AI uses this"; "Words to remember" (3-5 terms with one-line meanings).
+- Name the figure and audio clips from the notebook to embed.
 
 ## Days
 
@@ -51,6 +58,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** Peak, RMS and crest factor in dBFS; Amplify with a gain in dB and what clipping sounds like; Normalize to -1 dBFS with DC-offset removal; why two clips with the same peak can differ in loudness
 - **Audacity:** Amplify, Normalize, waveform (dB) view
 - **B.Tech DSP topic:** Signal energy and power
+- **How AI uses this:** Audio is brought to a similar level before it is used to train or run a speech model, so loud and quiet recordings look alike to the model.
 - **Blog post:** Normalize vs Amplify: what Audacity's two loudness buttons really do
 - **References:**
     - J. O. Smith, Mathematics of the DFT: Decibels (https://ccrma.stanford.edu/~jos/mdft/Decibels.html)
@@ -62,6 +70,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** Requantise a clip to 16, 8 and 4 bits; measure quantisation noise and SNR; add dither and hear the difference
 - **Audacity:** Sample format, dither setting
 - **B.Tech DSP topic:** Quantisation, SNR = 6.02N + 1.76 dB
+- **How AI uses this:** Models work on decimal numbers, and datasets are usually stored as 16-bit WAV files. Shrinking AI models to 8-bit numbers (quantisation) is the same rounding idea.
 - **Blog post:** Why 16 bits is enough: hearing quantisation noise
 - **References:**
     - The Scientist and Engineer's Guide to DSP, ch. 3: ADC and DAC (https://www.dspguide.com/ch3.htm)
@@ -73,6 +82,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** A chirp sweeping to 10 kHz, downsampled with and without an anti-aliasing filter; hear and see the folded frequencies
 - **Audacity:** Generate > Chirp, Resample
 - **B.Tech DSP topic:** Sampling theorem, reconstruction
+- **How AI uses this:** Speech models usually expect 16,000 samples a second. Audio is resampled to that rate, with an anti-aliasing filter, before a model hears it.
 - **Blog post:** Aliasing you can hear: the chirp that turns around
 - **References:**
     - The Scientist and Engineer's Guide to DSP, ch. 3: ADC and DAC (https://www.dspguide.com/ch3.htm)
@@ -84,6 +94,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** Square, sawtooth and triangle waves built from harmonic sums (Gibbs ringing included); white, pink and brown noise and their spectra
 - **Audacity:** Generate > Tone, Noise
 - **B.Tech DSP topic:** Fourier series
+- **How AI uses this:** Made-up tones and noise are used to test audio models, and noise is mixed into training clips so models cope with real, messy sound.
 - **Blog post:** Every waveform is a recipe of sines
 - **References:**
     - The Scientist and Engineer's Guide to DSP, ch. 13: Continuous Signal Processing (Fourier series) (https://www.dspguide.com/ch13.htm)
@@ -95,6 +106,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** The DFT written from its formula, checked and timed against np.fft; bin spacing fs/N; rfft and rfftfreq, fixing Lesson 1's frequency axis
 - **Audacity:** Plot Spectrum (Size)
 - **B.Tech DSP topic:** DFT, radix-2 FFT, O(N log N)
+- **How AI uses this:** Most audio AI does not look at raw samples. It looks at frequencies, worked out with the FFT.
 - **Blog post:** Writing the DFT by hand, then never again
 - **References:**
     - The Scientist and Engineer's Guide to DSP, ch. 8: The Discrete Fourier Transform (https://www.dspguide.com/ch8.htm)
@@ -107,6 +119,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** Two close tones analysed with rectangular, Hann, Hamming and Blackman windows; main-lobe width vs side-lobe level
 - **Audacity:** Plot Spectrum (Function)
 - **B.Tech DSP topic:** Windowing
+- **How AI uses this:** Every spectrogram a speech model sees is cut into windowed slices, usually with a Hann window.
 - **Blog post:** Why Plot Spectrum asks you to pick a window
 - **References:**
     - The Scientist and Engineer's Guide to DSP, ch. 9: Applications of the DFT (https://www.dspguide.com/ch9.htm)
@@ -118,6 +131,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** STFT window and hop sizes swept on speech; linear, log and mel frequency axes; the time-frequency trade-off
 - **Audacity:** Spectrogram view settings
 - **B.Tech DSP topic:** STFT, time-frequency uncertainty
+- **How AI uses this:** Many audio models treat the spectrogram like a picture and use image-style neural networks on it.
 - **Blog post:** Week 1 review: seeing time and frequency at once
 - **References:**
     - The Scientist and Engineer's Guide to DSP, ch. 9: Applications of the DFT (https://www.dspguide.com/ch9.htm)
@@ -130,6 +144,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** A clap as a room's impulse response; LTI properties checked numerically; the convolution sum written by hand
 - **Audacity:** Record, trim
 - **B.Tech DSP topic:** LTI systems, convolution sum
+- **How AI uses this:** Convolution is also the main operation inside convolutional neural networks (CNNs). It is the same sliding multiply-and-add.
 - **Blog post:** A clap tells you everything about a room
 - **References:**
     - The Scientist and Engineer's Guide to DSP, ch. 5: Linear Systems (https://www.dspguide.com/ch5.htm)
@@ -141,6 +156,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** A dry voice convolved with a room impulse response; direct vs FFT convolution speed; overlap-add
 - **Audacity:** Effect > Reverb
 - **B.Tech DSP topic:** Linear vs circular convolution, overlap-add
+- **How AI uses this:** Adding room echoes (convolving with room impulse responses) to training clips makes speech recognition work in real rooms, not just studios.
 - **Blog post:** Fake a cathedral with one line of NumPy
 - **References:**
     - The Scientist and Engineer's Guide to DSP, ch. 18: FFT Convolution (https://www.dspguide.com/ch18.htm)
@@ -152,6 +168,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** Feedforward and feedback comb filters from their difference equations; their notches and peaks plotted and heard
 - **Audacity:** Effect > Echo
 - **B.Tech DSP topic:** Difference equations, FIR vs IIR
+- **How AI uses this:** Phones and video calls cancel echo before your voice reaches a speech recogniser.
 - **Blog post:** Echo is a filter
 - **References:**
     - The Scientist and Engineer's Guide to DSP, ch. 19: Recursive Filters (https://www.dspguide.com/ch19.htm)
@@ -164,6 +181,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** Pole-zero plots and freqz; stability and the unit circle; move a pole and listen to the result
 - **Audacity:** (none)
 - **B.Tech DSP topic:** Z-transform, region of convergence, stability
+- **How AI uses this:** Recurrent neural networks feed outputs back in, like IIR filters. Feedback that grows without limit is the filter version of 'exploding gradients'.
 - **Blog post:** Poles, zeros and the unit circle, finally with sound
 - **References:**
     - The Scientist and Engineer's Guide to DSP, ch. 33: The z-Transform (https://www.dspguide.com/ch33.htm)
@@ -175,6 +193,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** A windowed-sinc low-pass by hand, then with scipy firwin; linear phase; high-pass by spectral inversion
 - **Audacity:** Low-Pass and High-Pass Filter
 - **B.Tech DSP topic:** FIR design by windowing
+- **How AI uses this:** A 1-D convolution layer in a neural network is an FIR filter whose numbers are learned instead of designed.
 - **Blog post:** Designing a low-pass filter from a sinc
 - **References:**
     - The Scientist and Engineer's Guide to DSP, ch. 16: Windowed-Sinc Filters (https://www.dspguide.com/ch16.htm)
@@ -186,6 +205,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** Butterworth, Chebyshev and elliptic filters compared; phase response; filtfilt for zero phase; shelving filters
 - **Audacity:** Bass and Treble
 - **B.Tech DSP topic:** Analog prototypes, bilinear transform
+- **How AI uses this:** Newer sequence models (state-space models such as S4 and Mamba) are related to IIR filters: they carry a state forward from sample to sample.
 - **Blog post:** Butterworth vs Chebyshev: flat or sharp?
 - **References:**
     - The Scientist and Engineer's Guide to DSP, ch. 19: Recursive Filters (https://www.dspguide.com/ch19.htm)
@@ -199,6 +219,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** A 10-band graphic EQ from RBJ peaking biquads in cascade, applied to a song
 - **Audacity:** Graphic EQ, Filter Curve EQ
 - **B.Tech DSP topic:** Biquads, second-order sections
+- **How AI uses this:** SpecAugment, a common training trick for speech models, hides bands of frequencies, a bit like an extreme equaliser.
 - **Blog post:** Week 2 review: build your own graphic EQ
 - **References:**
     - Audio EQ Cookbook (Bristow-Johnson), W3C note (https://www.w3.org/TR/audio-eq-cookbook/)
@@ -210,6 +231,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** Linear, exponential and S-curve fades; an ADSR envelope; ducking music under a voice
 - **Audacity:** Fade In/Out, Envelope tool, Auto Duck
 - **B.Tech DSP topic:** Amplitude modulation
+- **How AI uses this:** Clips cut out of recordings for AI training get short fades so the cuts do not add clicks the model might learn.
 - **Blog post:** Fades are multiplication
 - **References:**
     - Zölzer (ed.), DAFX: Digital Audio Effects: amplitude modulation and envelopes
@@ -221,6 +243,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** An envelope follower; threshold, ratio, attack and release; a brick-wall limiter
 - **Audacity:** Compressor, Limiter
 - **B.Tech DSP topic:** Nonlinear systems, smoothing filters
+- **How AI uses this:** The log in a log-mel spectrogram squashes loud and quiet parts together, much as a compressor does.
 - **Blog post:** How a compressor decides what's too loud
 - **References:**
     - Zölzer (ed.), DAFX: Digital Audio Effects: dynamics processing
@@ -232,6 +255,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** Short-time energy and zero-crossing rate; energy-based voice detection; a noise gate; trimming long silences
 - **Audacity:** Noise Gate, Truncate Silence
 - **B.Tech DSP topic:** Short-time energy, zero-crossing rate
+- **How AI uses this:** Voice activity detection removes silence before speech recognition, which saves time and avoids made-up words in the silence.
 - **Blog post:** Cutting the silence out of a podcast
 - **References:**
     - Rabiner & Schafer, Theory and Applications of Digital Speech Processing: short-time energy and zero-crossing rate
@@ -242,6 +266,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** A noise profile and spectral subtraction; where 'musical noise' comes from; a simple Wiener-style gain
 - **Audacity:** Noise Reduction (Get Noise Profile)
 - **B.Tech DSP topic:** Spectral subtraction, Wiener filter
+- **How AI uses this:** AI speech enhancement learns a 'mask' over the spectrogram, a learned version of the noise-reduction gain.
 - **Blog post:** Inside Audacity's Noise Reduction
 - **References:**
     - The Scientist and Engineer's Guide to DSP, ch. 17: Custom Filters (optimal filters) (https://www.dspguide.com/ch17.htm)
@@ -253,6 +278,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** A notch comb for 50 Hz mains hum and its harmonics; a median filter for clicks
 - **Audacity:** Notch Filter, Click Removal
 - **B.Tech DSP topic:** Notch design, median filtering
+- **How AI uses this:** Clean training data matters: a steady 50 Hz hum can become a pattern a model wrongly relies on.
 - **Blog post:** Removing the 50 Hz hum Indian mains leave behind
 - **References:**
     - The Scientist and Engineer's Guide to DSP, ch. 19: Recursive Filters (band-reject) (https://www.dspguide.com/ch19.htm)
@@ -264,6 +290,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** Resampling (speed) vs phase-vocoder time stretch (tempo) vs pitch shift, compared on the same clip
 - **Audacity:** Change Speed, Change Tempo, Change Pitch
 - **B.Tech DSP topic:** Multirate DSP, interpolation, phase vocoder
+- **How AI uses this:** Speech recognisers are trained on copies of clips played slightly faster and slower (speed perturbation) so they handle different speakers.
 - **Blog post:** Speed, tempo and pitch: Audacity's three different knobs
 - **References:**
     - J. O. Smith, Spectral Audio Signal Processing (https://ccrma.stanford.edu/~jos/sasp/)
@@ -275,6 +302,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** Mid/side encoding; centre-channel cancellation; pan laws
 - **Audacity:** Vocal Reduction and Isolation
 - **B.Tech DSP topic:** Phase cancellation
+- **How AI uses this:** AI source-separation models (such as Demucs) pull vocals out of songs by learning masks, doing much better than simple cancellation.
 - **Blog post:** Week 3 review: why vocal removal only half works
 - **References:**
     - Zölzer (ed.), DAFX: Digital Audio Effects: spatial effects
@@ -285,6 +313,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** Autocorrelation and pYIN on the trumpet; settles Lesson 1's 1,000 Hz vs 600 Hz question
 - **Audacity:** Plot Spectrum
 - **B.Tech DSP topic:** Autocorrelation
+- **How AI uses this:** Pitch tracking is used to label singing and speech data, and pitch helps models hear emotion and the tones of a language.
 - **Blog post:** Finding the pitch when the loudest note lies
 - **References:**
     - Müller, FMP notebooks, chapter 8: fundamental frequency estimation (https://www.audiolabs-erlangen.de/resources/MIR/FMP/C8/C8.html)
@@ -296,6 +325,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** Lesson 2's vowels rebuilt as a pulse train through formant resonators; LPC to estimate the formants back
 - **Audacity:** (none)
 - **B.Tech DSP topic:** All-pole models, linear prediction
+- **How AI uses this:** Text-to-speech systems and neural vocoders build on the source-filter idea. LPCNet even keeps linear prediction inside.
 - **Blog post:** Rebuilding vowels the way a throat does
 - **References:**
     - The Scientist and Engineer's Guide to DSP, ch. 22: Audio Processing (speech synthesis) (https://www.dspguide.com/ch22.htm)
@@ -307,6 +337,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** A mel filterbank by hand; log-mel spectrograms; MFCCs via the DCT
 - **Audacity:** Spectrogram view (Mel scale)
 - **B.Tech DSP topic:** Filter banks, DCT
+- **How AI uses this:** The log-mel spectrogram is the input to speech recognisers such as Whisper. MFCCs powered earlier speech recognition.
 - **Blog post:** The mel scale: how speech models hear
 - **References:**
     - Rabiner & Schafer, Theory and Applications of Digital Speech Processing: speech representations
@@ -318,6 +349,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** My recordings: vowel length, retroflex vs dental consonants, aspiration and voice onset time
 - **Audacity:** Record, spectrogram view, Label Tracks
 - **B.Tech DSP topic:** Speech analysis
+- **How AI uses this:** Indian-language speech AI needs Indian training data: sounds such as retroflex consonants look different in the spectrogram from English ones.
 - **Blog post:** Malayalam and Hindi in the spectrogram
 - **References:**
     - Rabiner & Schafer, Theory and Applications of Digital Speech Processing: acoustic phonetics
@@ -328,6 +360,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** Resample to 16 kHz and build the 80-bin log-mel input speech models use; compare with the sarvam_poc experiments
 - **Audacity:** Resample, Export
 - **B.Tech DSP topic:** Feature extraction
+- **How AI uses this:** This is exactly what a speech-to-text model receives: 16 kHz audio turned into an 80-band log-mel spectrogram.
 - **Blog post:** What a speech-to-text model sees before it hears
 - **References:**
     - librosa documentation: librosa.feature.melspectrogram
@@ -339,6 +372,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** Spectral-flux onset detection; tempo estimation; beat tracking on a song
 - **Audacity:** Beat Finder, Label Sounds
 - **B.Tech DSP topic:** Novelty functions, peak picking
+- **How AI uses this:** Music apps and AI music taggers find beats and onsets to line up, tag and recommend songs.
 - **Blog post:** Finding the beat with spectral flux
 - **References:**
     - Müller, FMP notebooks, chapter 6: tempo and beat tracking (https://www.audiolabs-erlangen.de/resources/MIR/FMP/C6/C6.html)
@@ -350,6 +384,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** The constant-Q transform; chroma features; key estimation on a Carnatic or film song
 - **Audacity:** Plot Spectrum (log frequency)
 - **B.Tech DSP topic:** Constant-Q transform
+- **How AI uses this:** Chroma features help music AI recognise songs, cover versions and keys.
 - **Blog post:** Twelve notes in a spectrogram
 - **References:**
     - Müller, FMP notebooks, chapter 3: music synchronization (chroma features) (https://www.audiolabs-erlangen.de/resources/MIR/FMP/C3/C3.html)
@@ -360,6 +395,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** Block processing with sounddevice; buffer size vs latency; a live filter with carried-over state
 - **Audacity:** Real-time effect preview, Audio Settings (buffer length)
 - **B.Tech DSP topic:** Frame-based processing
+- **How AI uses this:** Voice assistants and live captions process audio in small blocks, with a strict time limit for each one.
 - **Blog post:** Real-time DSP: latency and buffers
 - **References:**
     - The Scientist and Engineer's Guide to DSP, ch. 28: Digital Signal Processors (https://www.dspguide.com/ch28.htm)
@@ -371,6 +407,7 @@ One notebook a day from Thu 12 Nov to Fri 11 Dec 2026, with a blog post written 
 - **Builds:** My own normalise, EQ, noise reduction and compressor chained on a voice memo, compared with Audacity's output
 - **Audacity:** Macros
 - **B.Tech DSP topic:** Systems in cascade
+- **How AI uses this:** Every audio AI system has a clean-up chain like this before the model: level, filter, denoise, then features.
 - **Blog post:** 30 days of DSP: I rebuilt Audacity's effects rack
 - **References:**
     - Zölzer (ed.), DAFX: Digital Audio Effects: effect chains
