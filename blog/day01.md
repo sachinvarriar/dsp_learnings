@@ -16,9 +16,15 @@ Think of a **flip-book**. Each page is one still drawing, but flip through them 
 
 Our trumpet clip took **22,050 snapshots every second**. That number is called the **sampling rate**. The whole clip is 117,601 snapshots long. Divide one by the other and you get the clip's length: about 5⅓ seconds.
 
+The sampling rate is sound's version of a **frame rate**. A movie shows 24 pictures (frames) every second. Many video games show 30 or 60, and the 60 ones feel smoother because each movement is caught in more steps. Sound needs far more "frames" than video, because air wiggles much faster than anything moves on a screen: thousands of times a second.
+
 ## The speed limit: why some sounds get lost
 
-There is a rule for snapshots: **to catch a wiggle, you need at least two snapshots for every back-and-forth.** If the air wiggles faster than that, the snapshots miss it, and worse, they can make it look like a slower wiggle that was never there. That trick is called **aliasing**. Spinning wheels in films sometimes look like they go backwards for the same reason.
+There is a rule for snapshots: **to catch a wiggle, you need at least two snapshots for every back-and-forth.** If the air wiggles faster than that, the snapshots miss it, and worse, they can make it look like a slower wiggle that was never there. That trick is called **aliasing**.
+
+You have probably seen aliasing in a movie. When a car speeds up, its wheels sometimes seem to slow down, stop, or even spin **backwards**. The wheel is really spinning forwards, fast. But between one frame and the next, each spoke moves almost all the way to where the next spoke was. The camera only sees the frames, so your brain joins the dots the wrong way. Games do something similar: at a low frame rate, a fast-spinning fan or helicopter blade can look slow, jumpy or backwards.
+
+Sound works the same way. A wiggle that is too fast for the sampling rate doesn't just disappear. It shows up in disguise, as a lower sound that was never really there.
 
 So 22,050 snapshots a second can catch wiggles up to about 11,000 per second. That's enough for most music and speech.
 
@@ -58,8 +64,8 @@ Every AI that listens, from a phone's voice assistant to a music app that names 
 ## Words to remember
 
 - **Sample:** one snapshot of the sound, stored as a number.
-- **Sampling rate:** how many snapshots are taken each second.
-- **Aliasing:** a fake, slower sound created by taking snapshots too slowly.
+- **Sampling rate:** how many snapshots are taken each second, like a frame rate for sound.
+- **Aliasing:** a fake, slower sound created by taking snapshots too slowly, like wheels that seem to spin backwards in a movie.
 - **Spectrogram:** a picture of which notes are playing, and when.
 - **Timbre:** the "colour" of a sound that makes a trumpet sound like a trumpet.
 
